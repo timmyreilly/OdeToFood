@@ -35,7 +35,11 @@ namespace OdeToFood
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IGreeter greeter)
+        public void Configure(
+            IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory, 
+            IGreeter greeter)
         {
             loggerFactory.AddConsole();
 
@@ -44,8 +48,15 @@ namespace OdeToFood
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseWelcomePage(new WelcomePageOptions
+            {
+                Path = "/welcome"
+            }); // Terminal Middleware 
+            
+
             app.Run(async (context) =>
             {
+
                 var message = greeter.GetGreeting();  
                 await context.Response.WriteAsync(message);
             });
