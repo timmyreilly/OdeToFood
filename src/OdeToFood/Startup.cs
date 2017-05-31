@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Routing;
+using OdeToFood.Services;
 
 namespace OdeToFood
 {
@@ -31,9 +32,10 @@ namespace OdeToFood
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(); 
+            services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton<IGreeter, Greeter>();
+            services.AddScoped<IRestaurantData, InMemoryRestaurantData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,19 +58,19 @@ namespace OdeToFood
                     ExceptionHandler = context => context.Response.WriteAsync("Opps")
                 });
             }
-            
+
             app.UseFileServer();
 
             app.UseMvc(ConfigureRoutes);
 
-            app.Run(ctx => ctx.Response.WriteAsync("not found"));  
+            app.Run(ctx => ctx.Response.WriteAsync("not found"));
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
             // /Home/Index/Optional
 
-            routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}"); 
+            routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
         }
     }
 }
