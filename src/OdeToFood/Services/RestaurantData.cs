@@ -1,14 +1,13 @@
-﻿using OdeToFood.Models;
-using System;
+﻿using OdeToFood.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OdeToFood.Services
 {
     public interface IRestaurantData
     {
-        IEnumerable<Restaurant> GetAll(); 
+        IEnumerable<Restaurant> GetAll();
+        Restaurant Get(int id); 
     }
 
     public class InMemoryRestaurantData : IRestaurantData
@@ -26,6 +25,11 @@ namespace OdeToFood.Services
         public IEnumerable<Restaurant> GetAll()
         {
             return _restaurants;     
+        }
+
+        public Restaurant Get(int id)
+        {
+            return _restaurants.FirstOrDefault(r => r.Id == id); 
         }
 
         List<Restaurant> _restaurants; 
