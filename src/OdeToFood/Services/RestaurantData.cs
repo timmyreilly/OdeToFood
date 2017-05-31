@@ -1,18 +1,20 @@
 ﻿using OdeToFood.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace OdeToFood.Services
 {
     public interface IRestaurantData
     {
         IEnumerable<Restaurant> GetAll();
-        Restaurant Get(int id); 
+        Restaurant Get(int id);
+        Restaurant Add(Restaurant newRestaurant);
     }
 
     public class InMemoryRestaurantData : IRestaurantData
     {
-        public InMemoryRestaurantData()
+        static InMemoryRestaurantData() // Not thread safe NO concurrent users 
         {
             _restaurants = new List<Restaurant>
             {
@@ -32,6 +34,14 @@ namespace OdeToFood.Services
             return _restaurants.FirstOrDefault(r => r.Id == id); 
         }
 
-        List<Restaurant> _restaurants; 
+        public Restaurant Add(Restaurant newRestaurant)
+        {
+            newRestaurant.Id = _restaurants.Max(r => r.Id) + 1;
+            _restaurants.Add(newRestaurant);
+
+            return newRestaurant; 
+        }
+
+        static List<Restaurant> _restaurants; 
     }
 }
