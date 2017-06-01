@@ -1,23 +1,26 @@
-﻿@model OdeToFood.ViewModels.HomePageViewModel 
+﻿@model OdeToFood.ViewModels.HomePageViewModel
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>OdeToFood</title>
-</head>
-<body>
-    <h1>Welcome!</h1>
+@{
+    ViewBag.Title = "Home";
+}
+
+<h1>Welcome!</h1>
+<table>
+    @foreach (var restaraunt in Model.Restaurants)
+    {
+        <tr>
+            <td>@restaraunt.Name</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@restaraunt.Id">Detail</a>
+                <a asp-action="Edit" asp-route-id="@restaraunt.Id">Edit</a>
+            </td>
+
+        </tr>
+    }
+</table>
+
+<a asp-action="Create">Create</a>
+
+@section footer {
     <h3>@Model.CurrentMessage</h3>
-    <table>
-        @foreach (var restaraunt in Model.Restaurants)
-        {
-            <tr>
-                <td>
-                    <a href="/home/details/@restaraunt.Id">Details</a>
-                    @Html.ActionLink("View", "Details", new { id = restaraunt.Id })
-                </td>
-                <td>@restaraunt.Name</td>
-            </tr>
-        }
-    </table>
-</body>
-</html>
+}
