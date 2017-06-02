@@ -4,7 +4,14 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <environment names="Development">
+        <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />    
+    </environment>
+    <environment names="Staging, Production">
+        <link rel="stylesheet" href=""
+              asp-fallback-href="/node_modules/bootstrap/dis/css/bootstrap.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" />
+    </environment>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -25,10 +32,29 @@
             @await Component.InvokeAsync("Greeting")
         </footer>
     </div>
-    <script src="/node_modules/jquery/dist/jquery.js"></script>
-    <script src="/node_modules/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="/node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <environment names="Development">
+        <script src="/node_modules/jquery/dist/jquery.js"></script>
+        <script src="/node_modules/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="/node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
 
+    <environment names="Staging, Production">
+        <script src=""
+                asp-fallback-src="/node_modules/jquery/dist/jquery.js"
+                asp-fallback-test="window.jQuery">
+
+        </script>
+        <script src=""
+                asp-fallback-src="/node_modules/jquery-validation/dist/jquery.validate.js"
+                asp-fallback-test="window.jQuery && window.jQuery.Validator">
+
+        </script>
+        <script src=""
+                asp-fallback-src="/node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+                asp-fallback-test="window.jQuery && window.jQuery.Validator && window.jQuery.unobtrusive">
+
+        </script>
+    </environment>
 
 </body>
 </html>

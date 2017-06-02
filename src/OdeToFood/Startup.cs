@@ -72,7 +72,6 @@ namespace OdeToFood
 
             app.UseMvc(ConfigureRoutes);
 
-            app.Run(ctx => ctx.Response.WriteAsync("not found"));
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
